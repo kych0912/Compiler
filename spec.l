@@ -75,6 +75,8 @@ while((token=yylex())){
                 while(!isEmpty(stack)){
                         printf("%c ",pop(stack));
                 }
+                printf("\n");
+                break;
         default: printf("Error\n");break;
         }
         
