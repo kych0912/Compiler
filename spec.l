@@ -1,4 +1,4 @@
-{
+%{
 #define NUMBER 256
 #define OPERATOR 257
 #include<stdio.h>
