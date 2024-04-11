@@ -70,7 +70,7 @@ while((token=yylex())){
                 }
 
                 else{
-                        printf("%c ",pop(stack));
+                        printf("%s ",pop(stack));
                         push(stack,yytext);
                 }
 
