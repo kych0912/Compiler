@@ -1,4 +1,5 @@
 %{
+#define LINESPACE 255
 #define NUMBER 256
 #define OPERATOR 257
 #include<stdio.h>
@@ -14,7 +15,7 @@ digit [0-9]+
 {digit} {return NUMBER;}
 "-"|"+" {return OPERATOR;}
 . {}
-\n {}
+\n {return LINESPACE;}
 
 %%
 
@@ -35,22 +36,22 @@ int isEmpty(struct Stack* stack){
         return stack->top==-1;
 }
 
-void push(struct Stack* stack, char* item){
+void push(struct Stack* stack, char item){
         if(isFull(stack))
                 return;
         stack->arr[++stack->top]=item;
 
 }
 
-char* pop(struct Stack* stack){
+char pop(struct Stack* stack){
         if(isEmpty(stack))
-                return INT8_MIN;
+                return '\0';
         return stack->arr[stack->top--];
 }
 
-char* peek(struct Stack* stack){
+char peek(struct Stack* stack){
         if(isEmpty(stack))
-                return INT8_MIN;
+                return '\0';
         return stack->arr[stack->top];
 }
 
@@ -65,16 +66,15 @@ while((token=yylex())){
 
         case NUMBER: printf("%s ",yytext); break;
         case OPERATOR:
-                if(isEmpty(stack)){
-                        push(stack,yytext);
+                if(!isEmpty(stack)){
+                        printf("%c ",pop(stack));
                 }
-
-                else{
-                        printf("%s ",pop(stack));
-                        push(stack,yytext);
-                }
-
+                push(stack,yytext[0]);
                 break;
+        case LINESPACE:
+                while(!isEmpty(stack)){
+                        printf("%c ",pop(stack));
+                }
         default: printf("Error\n");break;
         }
         
